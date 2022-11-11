@@ -46,8 +46,10 @@ public class UserService {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("user_name", userParam.getUserName());
         User user = userMapper.selectOne(userQueryWrapper);
-        if(user == null || !bCryptPasswordEncoder.matches(userParam.getPassword(), user.getPassword()))
-            return Result.error("-1", "用户名或密码错误");
+        System.out.println(userParam);
+        System.out.println(user);
+        if(user == null || userParam.getPassword() == null || !bCryptPasswordEncoder.matches(userParam.getPassword(), user.getPassword()))
+            return Result.error("401", "用户名或密码错误");
         user.setToken(Token.getToken(user));
         user.setRoleName(roleMapper.selectById(user.getRoleId()).getRoleName());
         return Result.success(user);
@@ -60,7 +62,7 @@ public class UserService {
         User res = userMapper.selectOne(queryWrapper);
         
         if (res != null) {
-            return Result.error("-1", "用户名已被使用");
+            return Result.error("401", "用户名已被使用");
         }
         
         User user = new User();
