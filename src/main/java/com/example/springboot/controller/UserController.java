@@ -34,11 +34,6 @@ public class UserController {
         return userService.updateById(user);
     }
 
-    @RequestMapping("/insert")
-    public Result<?> insert(@RequestBody User user) {
-        return userService.insert(user);
-    }
-
     @PostMapping("/login")
     public Result<?> login(@RequestBody User userParam) {
         return userService.login(userParam);

@@ -5,10 +5,10 @@ import com.example.springboot.entity.User;
 import com.example.springboot.mapper.RoleMapper;
 import com.example.springboot.mapper.UserMapper;
 import com.example.springboot.utils.Token;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -32,12 +32,9 @@ public class UserService {
     }
     
     public Result<?> updateById(User user) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userMapper.updateById(user);
-        return Result.success();
-    }
-    
-    public Result<?> insert(User user) {
-        userMapper.insert(user);
         return Result.success();
     }
     
@@ -45,11 +42,11 @@ public class UserService {
         // 只有登陆时需要 userName 和 password
         // 后面用来标记用户的有且仅有 id
         // 显示的是 nickName
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("user_name", userParam.getUserName());
-        userQueryWrapper.eq("password", userParam.getPassword());
         User user = userMapper.selectOne(userQueryWrapper);
-        if (user == null)
+        if(user == null || !bCryptPasswordEncoder.matches(userParam.getPassword(), user.getPassword()))
             return Result.error("-1", "用户名或密码错误");
         user.setToken(Token.getToken(user));
         user.setRoleName(roleMapper.selectById(user.getRoleId()).getRoleName());
@@ -57,6 +54,7 @@ public class UserService {
     }
     
     public Result<?> register(User userParam) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_name", userParam.getUserName());
         User res = userMapper.selectOne(queryWrapper);
@@ -64,10 +62,10 @@ public class UserService {
         if (res != null) {
             return Result.error("-1", "用户名已被使用");
         }
-
+        
         User user = new User();
         user.setUserName(userParam.getUserName());
-        user.setPassword(userParam.getPassword());
+        user.setPassword(bCryptPasswordEncoder.encode(userParam.getPassword()));
         user.setNickName(userParam.getNickName());
     
         userMapper.insert(user);

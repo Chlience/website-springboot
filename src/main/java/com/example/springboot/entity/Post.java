@@ -17,9 +17,6 @@ public class Post {
     @TableField("user_id")
     private Integer userId;
 
-    @TableField("nick_name")
-    private String nickName;
-
     @TableField("content")
     private String content;
 

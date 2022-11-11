@@ -14,8 +14,8 @@ public class PostController {
     @Resource
     private PostService postService;
 
-    @RequestMapping("/getAll")
-    public Result<?> getAll(){
+    @RequestMapping("/getAllOrderByTime")
+    public Result<?> getAllOrderByTime(){
         return postService.getAllOrderByTime();
     }
 
