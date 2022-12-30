@@ -33,7 +33,13 @@ public class CommentService {
 		return Result.success();
 	}
 	
-	public Result<?> selectPage(Integer current, Integer size) {
+	public Result<?> selectAll() {
+		QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
+		queryWrapper.orderByDesc("post_time");
+		return Result.success(commentMapper.selectList(queryWrapper));
+	}
+	
+	public Result<?> selectAllInPage(Integer current, Integer size) {
 		Page<Comment> queryPage = new Page<>(current, size);
 		QueryWrapper<Comment> wrapper = new QueryWrapper<>();
 		wrapper.orderByAsc("id");
@@ -50,7 +56,7 @@ public class CommentService {
 		return Result.success(commentMapper.selectList(queryWrapper));
 	}
 	
-	public Result<?> selectPageByPostId(Integer id, Integer current, Integer size) {
+	public Result<?> selectByPostIdInPage(Integer id, Integer current, Integer size) {
 		Page<Comment> queryPage = new Page<>(current, size);
 		QueryWrapper<Comment> wrapper = new QueryWrapper<>();
 		wrapper.eq("post_id", id).orderByDesc("post_time");

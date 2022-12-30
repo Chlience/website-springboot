@@ -2,12 +2,15 @@ package com.example.springboot.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot.common.Result;
+import com.example.springboot.entity.Post;
 import com.example.springboot.entity.User;
 import com.example.springboot.mapper.RoleMapper;
 import com.example.springboot.mapper.UserMapper;
 import com.example.springboot.utils.Token;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import java.util.List;

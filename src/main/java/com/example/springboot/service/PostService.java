@@ -15,7 +15,7 @@ public class PostService {
 	@Resource
 	private PostMapper postMapper;
 	
-	public Result<?> getAll() {
+	public Result<?> selectAll() {
 		QueryWrapper<Post> wrapper = new QueryWrapper<>();
 		wrapper.orderByDesc("post_time");
 		return Result.success(postMapper.selectList(wrapper));
@@ -40,18 +40,18 @@ public class PostService {
 		return Result.success();
 	}
 	
-	public Result<?> selectPage(Integer current, Integer size) {
-		Page<Post> postPage = new Page<>(current, size);
+	public Result<?> selectAllInPage(Integer current, Integer size) {
+		Page<Post> queryPage = new Page<>(current, size);
 		QueryWrapper<Post> wrapper = new QueryWrapper<>();
 		wrapper.orderByDesc("post_time");
-		Page<Post> page = postMapper.selectPage(postPage, wrapper);
+		Page<Post> page = postMapper.selectPage(queryPage, wrapper);
 		
 		List<Post> records = page.getRecords();
 		if(records.size() == 0)
 			return Result.error("204", "No More Content");
 		return Result.success(records);
 	}
-	public Result<?> selectPageByUserId(Integer userId, Integer current, Integer size) {
+	public Result<?> selectByUserIdInPage(Integer userId, Integer current, Integer size) {
 		Page<Post> queryPage = new Page<>(current, size);
 		QueryWrapper<Post> wrapper = new QueryWrapper<>();
 		wrapper.eq("user_id", userId).orderByDesc("post_time");
