@@ -11,15 +11,15 @@ import java.util.Date;
 @Data
 @TableName("post")
 public class Post {
-    @TableId(value="id", type=IdType.AUTO)
-    private Integer id;
-
-    @TableField("user_id")
-    private Integer userId;
-
-    @TableField("content")
-    private String content;
-
-    @TableField("post_time")
-    private Date postTime;
+	@TableId(value="id", type=IdType.AUTO)
+	private Integer id;
+	
+	@TableField("user_id")
+	private Integer userId;
+	
+	@TableField("content")
+	private String content;
+	
+	@TableField("post_time")
+	private Date postTime;
 }

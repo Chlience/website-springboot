@@ -4,33 +4,32 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
 @TableName("user")
 public class User {
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
-    
-    @TableField("role")
-    private Integer roleId;
-
-    @TableField("user_name")
-    private String userName;
-
-    @TableField("password")
-    private String password;
-
-    @TableField("nick_name")
-    private String nickName;
-
-    @TableField("introduction")
-    private String introduction;
-
-    @TableField(exist = false)
-    private String token;
-    
-    @TableField(exist = false)
-    private String roleName;
+	@TableId(value = "id", type = IdType.AUTO)
+	private Integer id;
+	
+	@TableField("role")
+	private Integer roleId;
+	
+	@TableField("user_name")
+	private String userName;
+	
+	@TableField("password")
+	private String password;
+	
+	@TableField("nick_name")
+	private String nickName;
+	
+	@TableField("introduction")
+	private String introduction;
+	
+	@TableField(exist = false)
+	private String token;
+	
+	@TableField(exist = false)
+	private String roleName;
 }

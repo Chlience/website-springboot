@@ -9,5 +9,4 @@ import javax.annotation.Resource;
 public class RoleService {
     @Resource
     private PostMapper postMapper;
-    
 }
