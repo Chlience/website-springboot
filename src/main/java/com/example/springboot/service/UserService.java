@@ -19,8 +19,38 @@ public class UserService {
 	@Resource
 	private RoleMapper roleMapper;
 	
-	public Result<?> getAll() {
+	public Result<?> selectAll() {
 		return Result.success(userMapper.selectList(null));
+	}
+	
+	public Result<?> selectAllInPage(int current, int size) {
+		Page<User> queryPage = new Page<>(current, size);
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+		wrapper.orderByAsc("id");
+		Page<User> page = userMapper.selectPage(queryPage, wrapper);
+		List<User> records = page.getRecords();
+		if(records.size() == 0)
+			return Result.error("204", "No More Content");
+		return Result.success(records);
+	}
+	
+	public Result<?> selectByRole(int role) {
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+		wrapper.eq("role", role)
+				.orderByAsc("id");
+		return Result.success(userMapper.selectList(wrapper));
+	}
+	
+	public Result<?> selectByRoleInPage(int role, int current, int size) {
+		Page<User> queryPage = new Page<>(current, size);
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+		wrapper.eq("role", role)
+				.orderByAsc("id");
+		Page<User> page = userMapper.selectPage(queryPage, wrapper);
+		List<User> records = page.getRecords();
+		if(records.size() == 0)
+			return Result.error("204", "No More Content");
+		return Result.success(records);
 	}
 	
 	public Result<?> selectById(Integer id) {
@@ -50,7 +80,7 @@ public class UserService {
 		if(user == null || userParam.getPassword() == null || !bCryptPasswordEncoder.matches(userParam.getPassword(), user.getPassword()))
 			return Result.error("401", "用户名或密码错误");
 		user.setToken(Token.getToken(user));
-		user.setRoleName(roleMapper.selectById(user.getRoleId()).getRoleName());
+		user.setRoleName(roleMapper.selectById(user.getRole()).getRoleName());
 		return Result.success(user);
 	}
 	
@@ -81,7 +111,7 @@ public class UserService {
 		if(user == null || userParam.getPassword() == null || !bCryptPasswordEncoder.matches(userParam.getPassword(), user.getPassword()))
 			return Result.error("401", "用户名或密码错误");
 		
-		user.setRoleId(userParam.getRoleId());
+		user.setRole(userParam.getRole());
 		userMapper.updateById(user);
 		return Result.success();
 	}
@@ -136,16 +166,5 @@ public class UserService {
 		user.setIntroduction(userParam.getIntroduction());
 		userMapper.updateById(user);
 		return Result.success();
-	}
-	
-	public Result<?> selectPage(Integer current, Integer size) {
-		Page<User> queryPage = new Page<>(current, size);
-		QueryWrapper<User> wrapper = new QueryWrapper<>();
-		wrapper.orderByAsc("id");
-		Page<User> page = userMapper.selectPage(queryPage, wrapper);
-		List<User> records = page.getRecords();
-		if(records.size() == 0)
-			return Result.error("204", "No More Content");
-		return Result.success(records);
 	}
 }

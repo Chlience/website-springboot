@@ -13,7 +13,7 @@ public class User {
 	private Integer id;
 	
 	@TableField("role")
-	private Integer roleId;
+	private Integer role;
 	
 	@TableField("user_name")
 	private String userName;
