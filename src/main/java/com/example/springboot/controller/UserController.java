@@ -23,10 +23,8 @@ public class UserController {
 	
 	@ApiOperation(value = "分页返回全部用户")
 	@RequestMapping("/selectAllInPage")
-	public Result<?> selectAllInPage(@RequestBody Map<String,String> param) {
-		int current = Integer.parseInt(param.get("current"));
-		int size = Integer.parseInt(param.get("size"));
-		return userService.selectAllInPage(current, size);
+	public Result<?> selectAllInPage(@RequestBody int page) {
+		return userService.selectAllInPage(page);
 	}
 	
 	@ApiOperation(value = "按 ID 返回用户")
@@ -47,19 +45,18 @@ public class UserController {
 		return userService.updateById(user);
 	}
 	
-	@ApiOperation(value = "返回某权限全部用户")
+	@ApiOperation(value = "返回特权组全部用户")
 	@RequestMapping("/selectByRole")
 	public Result<?> selectPageByRole(@RequestBody int role) {
 		return userService.selectByRole(role);
 	}
 	
-	@ApiOperation(value = "分页返回某权限全部用户")
+	@ApiOperation(value = "分页返回特权组全部用户")
 	@RequestMapping("/selectByRoleInPage")
 	public Result<?> selectByRoleInPage(@RequestBody Map<String,String> param) {
 		int role = Integer.parseInt(param.get("role"));
-		int current = Integer.parseInt(param.get("current"));
-		int size = Integer.parseInt(param.get("size"));
-		return userService.selectByRoleInPage(role, current, size);
+		int page = Integer.parseInt(param.get("page"));
+		return userService.selectByRoleInPage(role, page);
 	}
 	
 	@ApiOperation(value = "用户登录")
@@ -74,7 +71,7 @@ public class UserController {
 		return userService.register(user);
 	}
 	
-	@ApiOperation(value = "更新用户权限")
+	@ApiOperation(value = "更新用户特权组")
 	@PostMapping("/updateRole")
 	public Result<?> updateRole(@RequestBody User user) {
 		return userService.updateRole(user);

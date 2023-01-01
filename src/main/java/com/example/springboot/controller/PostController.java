@@ -21,15 +21,21 @@ public class PostController {
 		return postService.selectAll();
 	}
 	
+	@ApiOperation(value = "分页返回所有博文")
+	@RequestMapping("/selectAllInPage")
+	public Result<?> selectAllInPage(@RequestBody int page) {
+		return postService.selectAllInPage(page);
+	}
+	
 	@ApiOperation(value = "按 ID 返回博文")
 	@RequestMapping("/selectById")
-	public Result<?> selectById(Integer id) {
+	public Result<?> selectById(@RequestBody int id) {
 		return postService.selectById(id);
 	}
 	
 	@ApiOperation(value = "按 ID 删除博文")
 	@RequestMapping("/deleteById")
-	public Result<?> deleteById(Integer id){
+	public Result<?> deleteById(@RequestBody int id){
 		return postService.deleteById(id);
 	}
 	
@@ -45,22 +51,19 @@ public class PostController {
 		return postService.insert(post);
 	}
 	
-	@ApiOperation(value = "分页返回所有博文")
-	@RequestMapping("/selectAllInPage")
-	public Result<?> selectAllInPage(@RequestBody Map<String,String> page) {
-		int current = Integer.parseInt(page.get("current"));
-		int size = Integer.parseInt(page.get("size"));
-		return postService.selectAllInPage(current, size);
+	@ApiOperation(value = "按 User ID 返回博文")
+	@RequestMapping("/selectByUserId")
+	public Result<?> selectByUserId(@RequestBody int userId) {
+		return postService.selectByUserId(userId);
 	}
 	
-	@ApiOperation(value = "分页按 ID 返回博文")
+	@ApiOperation(value = "分页按 User ID 返回博文")
 	@RequestMapping("/selectByUserIdInPage")
-	public Result<?> selectByUserIdInPage(@RequestBody Map<String,String> page) {
-		int userId = Integer.parseInt(page.get("userId"));
-		int current = Integer.parseInt(page.get("current"));
-		int size = Integer.parseInt(page.get("size"));
-		return userId == -1 ? postService.selectAllInPage(current, size) :
-				postService.selectByUserIdInPage(userId, current, size);
+	public Result<?> selectByUserIdInPage(@RequestBody Map<String,String> param) {
+		int userId = Integer.parseInt(param.get("userId"));
+		int page = Integer.parseInt(param.get("page"));
+		return userId == -1 ? postService.selectAllInPage(page) :
+				postService.selectByUserIdInPage(userId, page);
 	}
 	
 	@ApiOperation(value = "测试")

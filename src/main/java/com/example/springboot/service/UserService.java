@@ -2,36 +2,53 @@ package com.example.springboot.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot.common.Result;
-import com.example.springboot.entity.Post;
 import com.example.springboot.entity.User;
 import com.example.springboot.mapper.RoleMapper;
 import com.example.springboot.mapper.UserMapper;
 import com.example.springboot.utils.Token;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class UserService {
+	final static int PAGE_RECORDS_NUM = 10;
+	
 	@Resource
 	private UserMapper userMapper;
 	@Resource
 	private RoleMapper roleMapper;
 	
-	public Result<?> selectAll() {
-		return Result.success(userMapper.selectList(null));
+	public Result<?> selectById(int id) {
+		return Result.success(userMapper.selectById(id));
 	}
 	
-	public Result<?> selectAllInPage(int current, int size) {
-		Page<User> queryPage = new Page<>(current, size);
+	public Result<?> deleteById(int id) {
+		userMapper.deleteById(id);
+		return Result.success();
+	}
+	
+	public Result<?> updateById(User user) {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		userMapper.updateById(user);
+		return Result.success();
+	}
+	
+	public Result<?> selectAll() {
 		QueryWrapper<User> wrapper = new QueryWrapper<>();
 		wrapper.orderByAsc("id");
-		Page<User> page = userMapper.selectPage(queryPage, wrapper);
-		List<User> records = page.getRecords();
+		return Result.success(userMapper.selectList(wrapper));
+	}
+	
+	public Result<?> selectAllInPage(int page) {
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+		wrapper.orderByAsc("id");
+		Page<User> queryPage = new Page<>(page, PAGE_RECORDS_NUM);
+		Page<User> resultPage = userMapper.selectPage(queryPage, wrapper);
+		List<User> records = resultPage.getRecords();
 		if(records.size() == 0)
 			return Result.error("204", "No More Content");
 		return Result.success(records);
@@ -44,32 +61,16 @@ public class UserService {
 		return Result.success(userMapper.selectList(wrapper));
 	}
 	
-	public Result<?> selectByRoleInPage(int role, int current, int size) {
-		Page<User> queryPage = new Page<>(current, size);
+	public Result<?> selectByRoleInPage(int role, int page) {
 		QueryWrapper<User> wrapper = new QueryWrapper<>();
 		wrapper.eq("role", role)
 				.orderByAsc("id");
-		Page<User> page = userMapper.selectPage(queryPage, wrapper);
-		List<User> records = page.getRecords();
+		Page<User> queryPage = new Page<>(page, PAGE_RECORDS_NUM);
+		Page<User> resultPage = userMapper.selectPage(queryPage, wrapper);
+		List<User> records = resultPage.getRecords();
 		if(records.size() == 0)
 			return Result.error("204", "No More Content");
 		return Result.success(records);
-	}
-	
-	public Result<?> selectById(Integer id) {
-		return Result.success(userMapper.selectById(id));
-	}
-	
-	public Result<?> deleteById(Integer id) {
-		userMapper.deleteById(id);
-		return Result.success();
-	}
-	
-	public Result<?> updateById(User user) {
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		userMapper.updateById(user);
-		return Result.success();
 	}
 	
 	public Result<?> login(User userParam) {

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.Post;
 import com.example.springboot.entity.Comment;
-import com.example.springboot.entity.User;
 import com.example.springboot.mapper.CommentMapper;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +13,8 @@ import java.util.List;
 
 @Service
 public class CommentService {
+	final static int PAGE_RECORDS_NUM = 10;
+	
 	@Resource
 	private CommentMapper commentMapper;
 	
@@ -39,29 +40,31 @@ public class CommentService {
 		return Result.success(commentMapper.selectList(queryWrapper));
 	}
 	
-	public Result<?> selectAllInPage(Integer current, Integer size) {
-		Page<Comment> queryPage = new Page<>(current, size);
+	public Result<?> selectAllInPage(int page) {
 		QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-		wrapper.orderByAsc("id");
-		Page<Comment> page = commentMapper.selectPage(queryPage, wrapper);
-		List<Comment> records = page.getRecords();
+		wrapper.orderByDesc("post_time");
+		Page<Comment> queryPage = new Page<>(page, PAGE_RECORDS_NUM);
+		Page<Comment> resultPage = commentMapper.selectPage(queryPage, wrapper);
+		List<Comment> records = resultPage.getRecords();
 		if(records.size() == 0)
 			return Result.error("204", "No More Content");
 		return Result.success(records);
 	}
 	
 	public Result<?> selectByPostId(Integer id) {
-		QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
-		queryWrapper.eq("post_id", id).orderByDesc("post_time");
-		return Result.success(commentMapper.selectList(queryWrapper));
+		QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+		wrapper.eq("post_id", id)
+				.orderByDesc("post_time");
+		return Result.success(commentMapper.selectList(wrapper));
 	}
 	
-	public Result<?> selectByPostIdInPage(Integer id, Integer current, Integer size) {
-		Page<Comment> queryPage = new Page<>(current, size);
+	public Result<?> selectByPostIdInPage(int id, int page) {
 		QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-		wrapper.eq("post_id", id).orderByDesc("post_time");
-		Page<Comment> page = commentMapper.selectPage(queryPage, wrapper);
-		List<Comment> records = page.getRecords();
+		wrapper.eq("post_id", id)
+				.orderByDesc("post_time");
+		Page<Comment> queryPage = new Page<>(page, PAGE_RECORDS_NUM);
+		Page<Comment> resultPage = commentMapper.selectPage(queryPage, wrapper);
+		List<Comment> records = resultPage.getRecords();
 		if(records.size() == 0)
 			return Result.error("204", "No More Content");
 		return Result.success(records);

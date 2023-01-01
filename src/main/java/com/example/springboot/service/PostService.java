@@ -12,20 +12,15 @@ import java.util.List;
 
 @Service
 public class PostService {
+	final static int PAGE_RECORDS_NUM = 10;
 	@Resource
 	private PostMapper postMapper;
 	
-	public Result<?> selectAll() {
-		QueryWrapper<Post> wrapper = new QueryWrapper<>();
-		wrapper.orderByDesc("post_time");
-		return Result.success(postMapper.selectList(wrapper));
-	}
-	
-	public Result<?> selectById(Integer id) {
+	public Result<?> selectById(int id) {
 		return Result.success(postMapper.selectById(id));
 	}
 	
-	public Result<?> deleteById(Integer id) {
+	public Result<?> deleteById(int id) {
 		postMapper.deleteById(id);
 		return Result.success();
 	}
@@ -40,28 +35,44 @@ public class PostService {
 		return Result.success();
 	}
 	
-	public Result<?> selectAllInPage(Integer current, Integer size) {
-		Page<Post> queryPage = new Page<>(current, size);
+	public Result<?> selectAll() {
 		QueryWrapper<Post> wrapper = new QueryWrapper<>();
 		wrapper.orderByDesc("post_time");
-		Page<Post> page = postMapper.selectPage(queryPage, wrapper);
-		
-		List<Post> records = page.getRecords();
-		if(records.size() == 0)
-			return Result.error("204", "No More Content");
-		return Result.success(records);
+		return Result.success(postMapper.selectList(wrapper));
 	}
-	public Result<?> selectByUserIdInPage(Integer userId, Integer current, Integer size) {
-		Page<Post> queryPage = new Page<>(current, size);
+	
+	public Result<?> selectAllInPage(int page) {
 		QueryWrapper<Post> wrapper = new QueryWrapper<>();
-		wrapper.eq("user_id", userId).orderByDesc("post_time");
-		Page<Post> page = postMapper.selectPage(queryPage, wrapper);
+		wrapper.orderByDesc("post_time");
+		Page<Post> queryPage = new Page<>(page, PAGE_RECORDS_NUM);
+		Page<Post> resultPage = postMapper.selectPage(queryPage, wrapper);
 		
-		List<Post> records = page.getRecords();
+		List<Post> records = resultPage.getRecords();
 		if(records.size() == 0)
 			return Result.error("204", "No More Content");
 		return Result.success(records);
 	}
+	
+	public Result<?> selectByUserId(int userId) {
+		QueryWrapper<Post> wrapper = new QueryWrapper<>();
+		wrapper.eq("user_id", userId)
+				.orderByDesc("post_time");
+		return Result.success(postMapper.selectList(wrapper));
+	}
+	
+	public Result<?> selectByUserIdInPage(int userId, int page) {
+		QueryWrapper<Post> wrapper = new QueryWrapper<>();
+		wrapper.eq("user_id", userId)
+				.orderByDesc("post_time");
+		Page<Post> queryPage = new Page<>(page, PAGE_RECORDS_NUM);
+		Page<Post> resultPage = postMapper.selectPage(queryPage, wrapper);
+		
+		List<Post> records = resultPage.getRecords();
+		if(records.size() == 0)
+			return Result.error("204", "No More Content");
+		return Result.success(records);
+	}
+	
 	public Result<?> test() {
 		return Result.success();
 	}
