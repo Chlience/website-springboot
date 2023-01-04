@@ -40,7 +40,7 @@ public class CommentService {
 		return Result.success(commentMapper.selectList(queryWrapper));
 	}
 	
-	public Result<?> selectAllInPage(int page) {
+	public Result<?> selectAllInPage(Integer page) {
 		QueryWrapper<Comment> wrapper = new QueryWrapper<>();
 		wrapper.orderByDesc("post_time");
 		Page<Comment> queryPage = new Page<>(page, PAGE_RECORDS_NUM);
@@ -58,7 +58,7 @@ public class CommentService {
 		return Result.success(commentMapper.selectList(wrapper));
 	}
 	
-	public Result<?> selectByPostIdInPage(int id, int page) {
+	public Result<?> selectByPostIdInPage(Integer id, Integer page) {
 		QueryWrapper<Comment> wrapper = new QueryWrapper<>();
 		wrapper.eq("post_id", id)
 				.orderByDesc("post_time");

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Data
 @TableName("post")
@@ -21,5 +21,22 @@ public class Post {
 	private String content;
 	
 	@TableField("post_time")
-	private Date postTime;
+	private Timestamp postTime;
+	
+	/* hiding = hide_status*/
+	@TableField("hide_status")
+	private Boolean hideStatus;
+	
+	/* 0: wait; 1: pass; 2: fail; */
+	@TableField("review_status")
+	private Integer reviewStatus;
+	
+	@TableField("star_status")
+	private Boolean starStatus;
+	
+	@TableField("top_status")
+	private Boolean topStatus;
+	
+	@TableField("top_time")
+	private Timestamp topTime;
 }

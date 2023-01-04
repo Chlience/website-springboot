@@ -25,19 +25,19 @@ public class CommentController {
 	
 	@ApiOperation(value = "分页返回所有评论")
 	@RequestMapping("/selectAllInPage")
-	public Result<?> selectAllInPage(@RequestBody int page) {
+	public Result<?> selectAllInPage(@RequestBody Integer page) {
 		return commentService.selectAllInPage(page);
 	}
 	
 	@ApiOperation(value = "按 ID 返回评论")
 	@RequestMapping("/selectById")
-	public Result<?> selectById(@RequestBody int id) {
+	public Result<?> selectById(@RequestBody Integer id) {
 		return commentService.selectById(id);
 	}
 	
 	@ApiOperation(value = "按 ID 删除评论")
 	@RequestMapping("/deleteById")
-	public Result<?> deleteById(@RequestBody int id){
+	public Result<?> deleteById(@RequestBody Integer id){
 		return commentService.deleteById(id);
 	}
 	
@@ -49,15 +49,15 @@ public class CommentController {
 	
 	@ApiOperation(value = "按博文 ID 返回评论")
 	@RequestMapping("/selectByPostId")
-	public Result<?> selectByPostId(@RequestBody int id) {
+	public Result<?> selectByPostId(@RequestBody Integer id) {
 		return commentService.selectByPostId(id);
 	}
 	
 	@ApiOperation(value = "分页按博文 ID 返回评论")
 	@RequestMapping("/selectByPostIdInPage")
 	public Result<?> selectByPostIdInPage(@RequestBody Map<String,String> param){
-		int postId = Integer.parseInt(param.get("postId"));
-		int page = Integer.parseInt(param.get("page"));
+		Integer postId = Integer.parseInt(param.get("postId"));
+		Integer page = Integer.parseInt(param.get("page"));
 		return commentService.selectByPostIdInPage(postId, page);
 	}
 }
