@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Data
 @TableName("message")
@@ -17,23 +17,23 @@ public class Message {
 	@TableField("display_user_id")
 	private Integer displayUserId;
 	
-	/* hide = hide_status*/
-	@TableField("hide_status")
-	private Boolean hideStatus;
-	
-	/* read = read_status*/
-	@TableField("read_status")
-	private Boolean readStatus;
-	
 	@TableField("transmit_user_id")
 	private Integer transmitUserId;
 	
 	@TableField("receive_user_id")
 	private Integer receiveUserId;
 	
+	/* read = read_status*/
+	@TableField("read_status")
+	private Boolean readStatus;
+	
+	/* hide = hide_status*/
+	@TableField("hide_status")
+	private Boolean hideStatus;
+	
 	@TableField("content")
 	private String content;
 	
 	@TableField("post_time")
-	private Date postTime;
+	private Timestamp postTime;
 }

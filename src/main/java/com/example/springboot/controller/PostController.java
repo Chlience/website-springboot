@@ -63,18 +63,6 @@ public class PostController {
 		return postService.setStarStatusById(id, true);
 	}
 	
-	@ApiOperation(value = "按 ID 置顶博文")
-	@RequestMapping("/setTopStatusFalseById")
-	public Result<?> setTopStatusFalseById(@RequestBody Integer id) {
-		return postService.setTopStatusById(id, false);
-	}
-	
-	@ApiOperation(value = "按 ID 取消置顶博文")
-	@RequestMapping("/setTopStatusTrueById")
-	public Result<?> setTopStatusTrueById(@RequestBody Integer id) {
-		return postService.setTopStatusById(id, true);
-	}
-	
 	@ApiOperation(value = "按 ID 取消隐藏博文")
 	@RequestMapping("/setHideStatusFalseById")
 	public Result<?> setHideStatusFalseById(@RequestBody Integer id) {

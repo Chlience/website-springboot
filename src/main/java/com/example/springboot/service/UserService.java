@@ -21,11 +21,11 @@ public class UserService {
 	@Resource
 	private RoleMapper roleMapper;
 	
-	public Result<?> selectById(int id) {
+	public Result<?> selectById(Integer id) {
 		return Result.success(userMapper.selectById(id));
 	}
 	
-	public Result<?> deleteById(int id) {
+	public Result<?> deleteById(Integer id) {
 		userMapper.deleteById(id);
 		return Result.success();
 	}
@@ -43,7 +43,7 @@ public class UserService {
 		return Result.success(userMapper.selectList(wrapper));
 	}
 	
-	public Result<?> selectAllInPage(int page) {
+	public Result<?> selectAllInPage(Integer page) {
 		QueryWrapper<User> wrapper = new QueryWrapper<>();
 		wrapper.orderByAsc("id");
 		Page<User> queryPage = new Page<>(page, PAGE_RECORDS_NUM);
@@ -54,14 +54,14 @@ public class UserService {
 		return Result.success(records);
 	}
 	
-	public Result<?> selectByRole(int role) {
+	public Result<?> selectByRole(Integer role) {
 		QueryWrapper<User> wrapper = new QueryWrapper<>();
 		wrapper.eq("role", role)
 				.orderByAsc("id");
 		return Result.success(userMapper.selectList(wrapper));
 	}
 	
-	public Result<?> selectByRoleInPage(int role, int page) {
+	public Result<?> selectByRoleInPage(Integer role, Integer page) {
 		QueryWrapper<User> wrapper = new QueryWrapper<>();
 		wrapper.eq("role", role)
 				.orderByAsc("id");

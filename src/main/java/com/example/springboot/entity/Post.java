@@ -33,10 +33,4 @@ public class Post {
 	
 	@TableField("star_status")
 	private Boolean starStatus;
-	
-	@TableField("top_status")
-	private Boolean topStatus;
-	
-	@TableField("top_time")
-	private Timestamp topTime;
 }

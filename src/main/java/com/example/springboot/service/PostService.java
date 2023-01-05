@@ -8,8 +8,6 @@ import com.example.springboot.mapper.PostMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -33,7 +31,6 @@ public class PostService {
 	}
 	
 	public Result<?> insert(Post post) {
-		post.setTopStatus(false);
 		post.setStarStatus(false);
 		postMapper.insert(post);
 		return Result.success();
@@ -42,14 +39,6 @@ public class PostService {
 	public Result<?> setStarStatusById(Integer id, Boolean starStatus) {
 		Post post = postMapper.selectById(id);
 		post.setStarStatus(starStatus);
-		postMapper.updateById(post);
-		return Result.success();
-	}
-	
-	public Result<?> setTopStatusById(Integer id, Boolean topStatus) {
-		Post post = postMapper.selectById(id);
-		post.setTopStatus(topStatus);
-		post.setTopTime(new Timestamp(new Date().getTime()));
 		postMapper.updateById(post);
 		return Result.success();
 	}
@@ -113,7 +102,6 @@ public class PostService {
 		Post post = new Post();
 		post.setUserId(1);
 		post.setStarStatus(false);
-		post.setTopStatus(false);
 		post.setContent("timezone test");
 		postMapper.insert(post);
 		return Result.success();

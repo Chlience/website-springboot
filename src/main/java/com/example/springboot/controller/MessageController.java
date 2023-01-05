@@ -1,5 +1,4 @@
 package com.example.springboot.controller;
-
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.Message;
 import com.example.springboot.service.MessageService;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/message")
@@ -71,5 +71,62 @@ public class MessageController {
 		return messageService.setReadStatusById(id, true);
 	}
 	
+	@ApiOperation(value = "按 ID 显示所有发出或收到的信息")
+	@RequestMapping("/selectByDisplayUserId")
+	public Result<?> selectByDisplayUserId(@RequestBody Integer id) {
+		return messageService.selectByDisplayUserId(id);
+	}
 	
+	@ApiOperation(value = "分页按 ID 显示所有发出或收到的信息")
+	@RequestMapping("/selectByDisplayUserIdInPage")
+	public Result<?> selectByDisplayUserIdInPage(@RequestBody Map<String, String> param) {
+		Integer id = Integer.valueOf(param.get("id"));
+		Integer page = Integer.valueOf(param.get("page"));
+		return messageService.selectByDisplayUserIdInPage(id, page);
+	}
+	
+	@ApiOperation(value = "按 ID 显示所有发出的信息")
+	@RequestMapping("/selectByTransmitUserId")
+	public Result<?> selectByTransmitUserId(@RequestBody Integer id) {
+		return messageService.selectByTransmitUserId(id);
+	}
+	
+	@ApiOperation(value = "分页按 ID 显示所有发出的信息")
+	@RequestMapping("/selectByTransmitUserIdInPage")
+	public Result<?> selectByTransmitUserIdInPage(@RequestBody Map<String, String> param) {
+		Integer id = Integer.valueOf(param.get("id"));
+		Integer page = Integer.valueOf(param.get("page"));
+		return messageService.selectByTransmitUserIdInPage(id, page);
+	}
+	
+	@ApiOperation(value = "按 ID 显示所有收到的信息")
+	@RequestMapping("/selectByReceiveUserId")
+	public Result<?> selectByReceiveUserId(@RequestBody Integer id) {
+		return messageService.selectByReceiveUserId(id);
+	}
+	
+	@ApiOperation(value = "分页按 ID 显示所有收到的信息")
+	@RequestMapping("/selectByReceiveUserIdInPage")
+	public Result<?> selectByReceiveUserIdInPage(@RequestBody Map<String, String> param) {
+		Integer id = Integer.valueOf(param.get("id"));
+		Integer page = Integer.valueOf(param.get("page"));
+		return messageService.selectByReceiveUserIdInPage(id, page);
+	}
+	
+	@ApiOperation(value = "按发送 ID 和接受 ID 显示所有信息")
+	@RequestMapping("/selectByTransmitAndReceiveUserId")
+	public Result<?> selectByTransmitAndReceiveUserId(@RequestBody Map<String, String> param) {
+		Integer transmitUserId = Integer.valueOf(param.get("transmitUserId"));
+		Integer receiveUserId = Integer.valueOf(param.get("receiveUserId"));
+		return messageService.selectByTransmitAndReceiveUserId(transmitUserId, receiveUserId);
+	}
+	
+	@ApiOperation(value = "分页按发送 ID 和接受 ID 显示所有信息")
+	@RequestMapping("/selectByTransmitAndReceiveUserIdInPage")
+	public Result<?> selectByTransmitAndReceiveUserIdInPage(@RequestBody Map<String, String> param) {
+		Integer transmitUserId = Integer.valueOf(param.get("transmitUserId"));
+		Integer receiveUserId = Integer.valueOf(param.get("receiveUserId"));
+		Integer page = Integer.valueOf(param.get("page"));
+		return messageService.selectByTransmitAndReceiveUserIdInPage(transmitUserId, receiveUserId, page);
+	}
 }

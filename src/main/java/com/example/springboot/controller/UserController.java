@@ -23,19 +23,19 @@ public class UserController {
 	
 	@ApiOperation(value = "分页返回全部用户")
 	@RequestMapping("/selectAllInPage")
-	public Result<?> selectAllInPage(@RequestBody int page) {
+	public Result<?> selectAllInPage(@RequestBody Integer page) {
 		return userService.selectAllInPage(page);
 	}
 	
 	@ApiOperation(value = "按 ID 返回用户")
 	@RequestMapping("/selectById")
-	public Result<?> selectById(@RequestBody int id) {
+	public Result<?> selectById(@RequestBody Integer id) {
 		return userService.selectById(id);
 	}
 	
 	@ApiOperation(value = "按 ID 删除")
 	@RequestMapping("/deleteById")
-	public Result<?> deleteById(@RequestBody int id){
+	public Result<?> deleteById(@RequestBody Integer id){
 		return userService.deleteById(id);
 	}
 	
@@ -47,7 +47,7 @@ public class UserController {
 	
 	@ApiOperation(value = "返回特权组全部用户")
 	@RequestMapping("/selectByRole")
-	public Result<?> selectPageByRole(@RequestBody int role) {
+	public Result<?> selectPageByRole(@RequestBody Integer role) {
 		return userService.selectByRole(role);
 	}
 	

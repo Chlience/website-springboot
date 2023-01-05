@@ -10,23 +10,21 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
-@TableName("comment")
-public class Comment {
+@TableName("notice")
+public class Notice {
 	@TableId(value="id", type=IdType.AUTO)
 	private Integer id;
-	
-	@TableField("post_id")
-	private Integer postId;
-	
-	@TableField("reply_id")
-	private Integer replyId;
 	
 	@TableField("user_id")
 	private Integer userId;
 	
+	/* read = read_status*/
+	@TableField("read_status")
+	private Boolean readStatus;
+	
 	@TableField("content")
 	private String content;
 	
-	@TableField("post_time")
-	private Timestamp postTime;
+	@TableField("create_time")
+	private Timestamp createTime;
 }

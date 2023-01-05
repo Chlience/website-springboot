@@ -29,19 +29,19 @@ public class RoleController {
 	
 	@ApiOperation(value = "分页返回所有特权组")
 	@RequestMapping("/selectAllInPage")
-	public Result<?> selectAllInPage(@RequestBody int page) {
+	public Result<?> selectAllInPage(@RequestBody Integer page) {
 		return roleService.selectAllInPage(page);
 	}
 	
 	@ApiOperation(value = "按 ID 返回特权组")
 	@RequestMapping("/selectById")
-	public Result<?> selectById(@RequestBody int id) {
+	public Result<?> selectById(@RequestBody Integer id) {
 		return roleService.selectById(id);
 	}
 	
 	@ApiOperation(value = "按 ID 删除特权组")
 	@RequestMapping("/deleteById")
-	public Result<?> deleteById(@RequestBody int id){
+	public Result<?> deleteById(@RequestBody Integer id){
 		return roleService.deleteById(id);
 	}
 	
